@@ -18,9 +18,19 @@ app.get('/numbers/:numberid',async(req,res) => {
         return res.status(400).json({ error: 'Invalid number ID' });
     }
 
+
     const url = api[id];
     const wp = [...wq];
-    let n = [2,4,6,8];
+    let n=[];
+    try
+    {
+    const response = await axios.get(url, { timeout: 500 });
+    n = response.data.numbers || [];
+    }
+    catch(error)
+    {
+        n=[];
+    }
 
     for (const num of n) {
         if (!ns.has(num)) {
